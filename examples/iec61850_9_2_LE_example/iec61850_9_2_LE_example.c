@@ -20,6 +20,7 @@
  *
  *  See COPYING file for the complete license text.
  */
+#define _USE_MATH_DEFINES
 
 #include "iec61850_server.h"
 #include "sv_publisher.h"
@@ -28,6 +29,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+
+
 
 /* Include the generated header with the model access handles */
 #include "static_model.h"
