@@ -88,19 +88,19 @@ set_source_files_properties(${libhal_SRCS}
 ENDIF()
 
 ELSEIF(UNIX)
-IF(APPLE)
-set (libhal_SRCS
-    ${libhal_bsd_SRCS}
-)
-ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-set (libhal_SRCS
-    ${libhal_bsd_SRCS}
-)
-ELSE()
-set (libhal_SRCS
-    ${libhal_linux_SRCS}
-)
-ENDIF(APPLE)
+	IF(APPLE)
+	set (libhal_SRCS
+		${libhal_bsd_SRCS}
+	)
+	ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+	set (libhal_SRCS
+		${libhal_bsd_SRCS}
+	)
+	ELSE()
+	set (libhal_SRCS
+		${libhal_linux_SRCS}
+	)
+	ENDIF(APPLE)
 ENDIF(WIN32)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
@@ -159,8 +159,23 @@ IF(MINGW)
 ENDIF(MINGW)
 
 iF(WITH_WPCAP)
-target_link_libraries(hal
-	${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/wpcap.lib
-	${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/packet.lib
-)
+	IF (CMAKE_CL_64)
+	target_link_libraries(hal
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/wpcap.lib
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/packet.lib
+	)
+	target_link_libraries(hal-shared
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/wpcap.lib
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/packet.lib
+	)
+	ELSE()
+	target_link_libraries(hal
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/wpcap.lib
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/packet.lib
+	)
+	target_link_libraries(hal-shared
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/wpcap.lib
+		${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/packet.lib
+	)
+	ENDIF(CMAKE_CL_64)
 ENDIF(WITH_WPCAP)

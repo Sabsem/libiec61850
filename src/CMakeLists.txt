@@ -296,6 +296,7 @@ set_target_properties(iec61850-shared PROPERTIES
            SOVERSION "${LIB_VERSION_MAJOR}.${LIB_VERSION_MINOR}.${LIB_VERSION_PATCH}"
 )
 
+target_compile_definitions(hal-shared PRIVATE EXPORT_FUNCTIONS_FOR_DLL)
 target_compile_definitions(iec61850-shared PRIVATE EXPORT_FUNCTIONS_FOR_DLL)
 
 target_link_libraries(iec61850-shared
@@ -335,16 +336,27 @@ IF(MINGW)
 ENDIF(MINGW)
 
 iF(WITH_WPCAP)
-target_link_libraries(iec61850
-   ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/lib/wpcap.lib
-   ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/lib/packet.lib
-)
-target_link_libraries(iec61850-shared
-   ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/lib/wpcap.lib
-   ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/lib/packet.lib
-)
-
+	IF (CMAKE_CL_64)
+	    target_link_libraries(iec61850
+		    ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/wpcap.lib
+		    ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/packet.lib
+	    )
+        target_link_libraries(iec61850-shared
+            ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/wpcap.lib
+            ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/x64/packet.lib
+       )
+	ELSE()
+	    target_link_libraries(iec61850
+		    ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/wpcap.lib
+		    ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/packet.lib
+	    )
+        target_link_libraries(iec61850-shared
+            ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/wpcap.lib
+            ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/winpcap/Lib/packet.lib
+       )
+	ENDIF(CMAKE_CL_64)
 ENDIF(WITH_WPCAP)
+
 
 set(BINDIR "bin")
 set(LIBDIR "lib")
