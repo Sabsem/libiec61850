@@ -48,5 +48,10 @@
     <Compile Include="SampledValuesSubscriber.cs" />
     <Compile Include="IedServerConfig.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\out\install\x64-Debug\bin\iec61850.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
